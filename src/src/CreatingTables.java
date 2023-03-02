@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class CreatingTables {
 	
-	public void createTablesInDataBase() {
+	public static void createTablesInDataBase() {
 	    String url = "jdbc:sqlserver://localhost:1433;" +
 	            "databaseName=HotelDBMS;" +
 	            "encrypt=true;" +
@@ -17,20 +17,10 @@ public class CreatingTables {
 	    String user = "sa";
 	    String pass = "root";
 	
-	    Scanner scanner = new Scanner(System.in);
-	
-	  /*  System.out.println("enter name");
-	    String name = scanner.next();
-	
-	    System.out.println("enter roll no");
-	    Integer roll = scanner.nextInt();
-	
-	    System.out.println("enter class");
-	    String cls = scanner.next();*/
-	
-	
+
 	    Connection con = null;
-	
+	  //-----------------------------------------------------------------------------------------------------------------------------------
+
 	    try {
 	
 	        Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
@@ -41,17 +31,37 @@ public class CreatingTables {
 	
 	        Statement st = con.createStatement();
 	
-	        String sql = "-- Create Hotels table\r\n"
+	        String sql1 = "IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Hotels]') AND type in (N'U'))\r\n"
 	        		+ "CREATE TABLE Hotels (\r\n"
-	        		+ "  id INTEGER PRIMARY KEY,\r\n"
+	        		+ "  id INTEGER IDENTITY PRIMARY KEY,\r\n"
 	        		+ "  hotel_name VARCHAR(255) NOT NULL,\r\n"
 	        		+ "  hotel_location VARCHAR(255),\r\n"
 	        		+ "  created_date DATE NOT NULL,\r\n"
 	        		+ "  updated_date DATE,\r\n"
 	        		+ "  is_Active BIT NOT NULL\r\n"
 	        		+ ");\r\n"
-	        		+ "\r\n"
-	        		+ "-- Create Room_Type table\r\n"
+	        		+ "";
+	
+	        st.executeUpdate(sql1);
+	        System.out.println("THE Hotels TABLE CREATED SUCCESSFULLY");
+	        con.close();
+	    } catch (Exception ex) {
+	        System.err.println(ex);
+	    }
+
+	
+//-----------------------------------------------------------------------------------------------------------------------------------
+	    try {
+	    	
+	        Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	        DriverManager.registerDriver(driver);
+	
+	        con = DriverManager.getConnection(url, user, pass);
+	
+	
+	        Statement st = con.createStatement();
+	
+	        String sql2 = "IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Room_Type]') AND type in (N'U'))\r\n"
 	        		+ "CREATE TABLE Room_Type (\r\n"
 	        		+ "  id INTEGER PRIMARY KEY,\r\n"
 	        		+ "  room_type_name VARCHAR(255) NOT NULL,\r\n"
@@ -59,8 +69,26 @@ public class CreatingTables {
 	        		+ "  updated_date DATE,\r\n"
 	        		+ "  is_Active BIT NOT NULL\r\n"
 	        		+ ");\r\n"
-	        		+ "\r\n"
-	        		+ "-- Create Rooms table\r\n"
+	        		+ "";
+	
+	        st.executeUpdate(sql2);
+	        System.out.println("THE Room_Type TABLE CREATED SUCCESSFULLY");
+	        con.close();
+	    } catch (Exception ex) {
+	        System.err.println(ex);
+	    }
+//-----------------------------------------------------------------------------------------------------------------------------------
+	    try {
+	    	
+	        Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	        DriverManager.registerDriver(driver);
+	
+	        con = DriverManager.getConnection(url, user, pass);
+	
+	
+	        Statement st = con.createStatement();
+	
+	        String sql3 = "IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Rooms]') AND type in (N'U'))\r\n"
 	        		+ "CREATE TABLE Rooms (\r\n"
 	        		+ "  id INTEGER PRIMARY KEY,\r\n"
 	        		+ "  room_type_id INTEGER,\r\n"
@@ -70,9 +98,27 @@ public class CreatingTables {
 	        		+ "  is_Active BIT NOT NULL,\r\n"
 	        		+ "  FOREIGN KEY (room_type_id) REFERENCES Room_Type(id),\r\n"
 	        		+ "  FOREIGN KEY (hotel_id) REFERENCES Hotels(id)\r\n"
-	        		+ ");\r\n"
-	        		+ "\r\n"
-	        		+ "-- Create Guests table\r\n"
+	        		+ ");";
+	
+	        st.executeUpdate(sql3);
+	        System.out.println("THE Rooms TABLE CREATED SUCCESSFULLY");
+	        con.close();
+	    } catch (Exception ex) {
+	        System.err.println(ex);
+	    }
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+	    try {
+	    	
+	        Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	        DriverManager.registerDriver(driver);
+	
+	        con = DriverManager.getConnection(url, user, pass);
+	
+	
+	        Statement st = con.createStatement();
+	
+	        String sql4 = "IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Guests]') AND type in (N'U'))\r\n"
 	        		+ "CREATE TABLE Guests (\r\n"
 	        		+ "  id INTEGER PRIMARY KEY,\r\n"
 	        		+ "  guest_name VARCHAR(255) NOT NULL,\r\n"
@@ -86,18 +132,52 @@ public class CreatingTables {
 	        		+ "  is_Active BIT NOT NULL,\r\n"
 	        		+ "  FOREIGN KEY (room_id) REFERENCES Rooms(id),\r\n"
 	        		+ "  FOREIGN KEY (hotel_id) REFERENCES Hotels(id)\r\n"
-	        		+ ");\r\n"
-	        		+ "\r\n"
-	        		+ "-- Create Employee_Type table\r\n"
+	        		+ ");";
+	
+	        st.executeUpdate(sql4);
+	        System.out.println("THE Guests TABLE CREATED SUCCESSFULLY");
+	        con.close();
+	    } catch (Exception ex) {
+	        System.err.println(ex);
+	    }
+//-----------------------------------------------------------------------------------------------------------------------------------
+	    try {
+	    	
+	        Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	        DriverManager.registerDriver(driver);
+	
+	        con = DriverManager.getConnection(url, user, pass);
+	
+	
+	        Statement st = con.createStatement();
+	
+	        String sql5 = "IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Employee_Type]') AND type in (N'U'))\r\n"
 	        		+ "CREATE TABLE Employee_Type (\r\n"
 	        		+ "  id INTEGER PRIMARY KEY,\r\n"
 	        		+ "  employee_type_name VARCHAR(255) NOT NULL,\r\n"
 	        		+ "  created_date DATE NOT NULL,\r\n"
 	        		+ "  updated_date DATE,\r\n"
 	        		+ "  is_Active BIT NOT NULL\r\n"
-	        		+ ");\r\n"
-	        		+ "\r\n"
-	        		+ "-- Create Employees table\r\n"
+	        		+ ");";
+	
+	        st.executeUpdate(sql5);
+	        System.out.println("THE Employee_Type TABLE CREATED SUCCESSFULLY");
+	        con.close();
+	    } catch (Exception ex) {
+	        System.err.println(ex);
+	    }
+//-----------------------------------------------------------------------------------------------------------------------------------
+	    try {
+	    	
+	        Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	        DriverManager.registerDriver(driver);
+	
+	        con = DriverManager.getConnection(url, user, pass);
+	
+	
+	        Statement st = con.createStatement();
+	
+	        String sql6 = "IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Employees]') AND type in (N'U'))\r\n"
 	        		+ "CREATE TABLE Employees (\r\n"
 	        		+ "  id INTEGER PRIMARY KEY,\r\n"
 	        		+ "  employee_type_id INTEGER,\r\n"
@@ -107,15 +187,14 @@ public class CreatingTables {
 	        		+ "  is_Active BIT NOT NULL,\r\n"
 	        		+ "  FOREIGN KEY (employee_type_id) REFERENCES Employee_Type(id),\r\n"
 	        		+ "  FOREIGN KEY (room_id) REFERENCES Rooms(id)\r\n"
-	        		+ ");\r\n"
-	        		+ "";
+	        		+ ");";
 	
-	        st.executeUpdate(sql);
-	        System.out.println("THE TABLES CREATED SUCCESSFULLY");
+	        st.executeUpdate(sql6);
+	        System.out.println("THE Employees TABLE CREATED SUCCESSFULLY");
 	        con.close();
 	    } catch (Exception ex) {
 	        System.err.println(ex);
 	    }
-
+	  //-----------------------------------------------------------------------------------------------------------------------------------
 	}
 }
