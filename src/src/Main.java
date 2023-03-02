@@ -15,9 +15,12 @@ public class Main {
 		// CreatingTables.createTablesInDataBase();
 		// insert100Hotels();
 		// Hotels.readFromTable();
-		Rooms.readFromTable();
+		// Rooms.readFromTable();
+		// Hotels.updateById();
+		// Hotels.deleteById();
+		// Hotels.makeIsActiveFalseById();
 	}
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void insert100Hotels() {
 		String insertQuery = "INSERT INTO hotels ( hotel_name, hotel_location, created_date, updated_date, is_active)" +
 				"VALUES ( ?, ?, GETDATE(), GETDATE(), ?)";
@@ -43,5 +46,8 @@ public class Main {
 			ex.printStackTrace();
 		}
 	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 }

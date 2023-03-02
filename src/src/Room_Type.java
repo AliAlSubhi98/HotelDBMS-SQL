@@ -14,7 +14,6 @@ public class Room_Type {
 	private static final String USERNAME = "sa";
 	private static final String PASSWORD = "root";
 	private static final String TABLE_NAME = "Room_Type";
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static void readFromTable() {
 		try (Connection conn = DriverManager.getConnection(CONNECTION_URL, USERNAME, PASSWORD);

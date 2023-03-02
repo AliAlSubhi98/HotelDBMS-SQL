@@ -15,7 +15,6 @@ public class Rooms{
     private static final String PASSWORD = "root";
     private static final String TABLE_NAME = "Rooms";
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public static void readFromTable() {
 		try (Connection conn = DriverManager.getConnection(CONNECTION_URL, USERNAME, PASSWORD);
 				PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + TABLE_NAME)) {
